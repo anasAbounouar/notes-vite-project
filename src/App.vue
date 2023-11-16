@@ -8,7 +8,7 @@ function generateRandomLightColor() {
 
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
 }
-
+const errorMsg = ref('');
 const pop: Ref<boolean> = ref(false);
 const newNote: Ref<string> = ref('');
 interface Note {
@@ -20,7 +20,10 @@ interface Note {
 const notes: Ref<Note[]> = ref([]); // Assuming list should hold strings
 
 const addNote = (): void => {
-    if (!newNote.value.length) return;
+    if (!newNote.value.length) {
+        errorMsg.value = 'Please write something';
+        return;
+    }
     !newNote.value.length;
     notes.value.push({
         id: Math.floor(Math.random() * 100),
@@ -30,6 +33,7 @@ const addNote = (): void => {
     });
     newNote.value = '';
     pop.value = !pop.value;
+    errorMsg.value = '';
 };
 </script>
 
@@ -40,6 +44,7 @@ const addNote = (): void => {
             <div class="modal">
                 <p @click.prevent="pop = !pop">x</p>
                 <textarea v-model="newNote" />
+                <p v-if="errorMsg" class="text-red">{{ errorMsg }}</p>
                 <button @click.prevent="addNote()">Add Note</button>
             </div>
         </div>
@@ -98,6 +103,9 @@ h1 {
 .date {
     font-size: 12.5px;
     margin-top: auto;
+}
+.text-red {
+    color: red;
 }
 
 header {
