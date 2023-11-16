@@ -105,7 +105,7 @@ h1 {
     margin-top: auto;
 }
 .text-red {
-    color: red;
+  color: red;
 }
 
 header {
